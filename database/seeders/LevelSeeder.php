@@ -17,6 +17,7 @@ class LevelSeeder extends Seeder
             ['level_id' => 1, 'level_kode' => 'ADM', 'level_name' => 'Administrator'],
             ['level_id' => 2, 'level_kode' => 'MNG', 'level_name' => 'Manager'],
             ['level_id' => 3, 'level_kode' => 'STF', 'level_name' => 'Staff/Kasir'],
+            ['level_id' => 4, 'level_kode' => 'PLG', 'level_name' => 'User/Pelanggan'],
         ];
         DB::table('m_level')->insert($data);
     }
