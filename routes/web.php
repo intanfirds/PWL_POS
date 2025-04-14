@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +50,28 @@ Route::group(['prefix' => 'kategori'], function () {
     Route::get('/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+});
+
+Route::group(['prefix' => 'barang'], function () {
+    Route::get('/', [BarangController::class, 'index'])->name('barang.index');
+    Route::get('/list', [BarangController::class, 'list'])->name('barang.list');
+    Route::get('/create', [BarangController::class, 'create'])->name('barang.create');
+    Route::post('/', [BarangController::class, 'store'])->name('barang.store');
+    Route::get('/{id}', [BarangController::class, 'show'])->name('barang.show');
+    Route::get('/{id}/edit', [BarangController::class, 'edit'])->name('barang.edit');
+    Route::put('/{id}', [BarangController::class, 'update'])->name('barang.update');
+    Route::delete('/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+});
+
+Route::group(['prefix' => 'stock'], function () {
+    Route::get('/', [StockController::class, 'index'])->name('stock.index');
+    Route::get('/list', [StockController::class, 'list'])->name('stock.list');
+    Route::get('/create', [StockController::class, 'create'])->name('stock.create');
+    Route::post('/', [StockController::class, 'store'])->name('stock.store');
+    Route::get('/{id}', [StockController::class, 'show'])->name('stock.show');
+    Route::get('/{id}/edit', [StockController::class, 'edit'])->name('stock.edit');
+    Route::put('/{id}', [StockController::class, 'update'])->name('stock.update');
+    Route::delete('/{id}', [StockController::class, 'destroy'])->name('stock.destroy');
 });
 
 ?>
