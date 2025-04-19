@@ -3,25 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\BarangModel; // Ensure that the BarangModel class exists in the specified namespace or update the namespace accordingly
+use App\Models\UserModel; // Ensure that the UserModel class exists in the specified namespace or update the namespace accordingly
+use App\Models\KategoriModel; // Ensure that the KategoriModel class exists in the specified namespace or update the namespace accordingly
 
 class StockModel extends Model
 {
-    protected $table = 'm_stock';
+    protected $table = 't_stok';
 
-    protected $primaryKey = 'stock_id';
+    protected $primaryKey = 'stok_id';
 
-    public function barang()
+    protected $fillable = [
+        'barang_id',
+        'user_id',
+        'stok_tanggal',
+        'stok_jumlah',
+    ];
+    
+
+    public function barang() : BelongsTo
     {
-        return $this->belongsTo('App\Models\BarangModel', 'barang_id', 'barang_id');
+        return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
     }
 
-    public function user()
+    public function user() : BelongsTo
     {
-        return $this->belongsTo('App\Models\UserModel', 'user_id', 'user_id');
-    }
-
-    public function kategori()
-    {
-        return $this->belongsTo('App\Models\KategoriModel', 'kategori_id', 'kategori_id');
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
     }
 }

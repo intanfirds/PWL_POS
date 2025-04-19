@@ -6,6 +6,7 @@
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
                 <a href="{{ route('stock.create') }}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+                <button onclick="modalAction('{{ url('stock/create_ajax')}}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">
@@ -22,8 +23,8 @@
                         <div class="col-3">
                             <select class="form-control" id="kategori_id" name="kategori_id" required>
                                 <option value="">- Semua -</option>
-                                @foreach($kategori as $item)
-                                    <option value="{{ $item->kategori_id }}">{{ $item->kategori_nama }}</option>
+                                @foreach($kategoriUnik as $item)
+                                    <option value="{{ $item->kategori_id }}">{{ $item->kategori->kategori_nama }}</option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Kategori Barang</small>
@@ -35,7 +36,7 @@
                 <thead>
                     <tr>
                         <th style="width: 7%">ID</th>
-                        <th>Kategori Barang</th>
+                        <th>Nama Barang</th>
                         <th>Stock Tanggal</th>
                         <th>Stock Jumlah</th>
                         <th>Aksi</th>
@@ -44,6 +45,8 @@
             </table>
         </div>
     </div>
+    <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" 
+    data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true" >
 @endsection
 
 @push('css')
@@ -51,6 +54,11 @@
 
 @push('js')
 <script>
+    function modalAction(url) {
+            $('#myModal').load(url, function() {
+                $('#myModal').modal('show');
+            });
+        }
     $(document).ready(function () {
         var dataStock = $('#table_stock').DataTable({
             serverSide: true,
@@ -65,9 +73,9 @@
             },
             columns: [
                 { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                { data: "kategori_nama", className: "", orderable: false, searchable: false },
-                { data: "stock_tanggal", className: "", orderable: true, searchable: true },
-                { data: "stock_jumlah", className: "", orderable: true, searchable: true },
+                { data: "barang.barang_nama", className: "", orderable: false, searchable: true },
+                { data: "stok_tanggal", className: "", orderable: true, searchable: true },
+                { data: "stok_jumlah", className: "", orderable: true, searchable: true },
                 { data: "aksi", className: "", orderable: false, searchable: false },
             ],
         });
