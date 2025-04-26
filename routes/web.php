@@ -9,27 +9,21 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::pattern('id', '[0-9]+');
 
+// Route Login & Logout
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postLogin'])->name('postLogin');
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');;
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
+// Semua route di bawah sini butuh login
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [WelcomeController::class,'index']);
 
-    Route::group(['prefix' => 'user'], function () {
+    // Home / dashboard
+    Route::get('/', [WelcomeController::class, 'index'])->name('home');
+
+    // User
+    Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::get('/list', [UserController::class, 'list'])->name('user.list');
         Route::get('/create', [UserController::class, 'create'])->name('user.create');
@@ -46,23 +40,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('user.destroy');
     });
 
-    Route::group(['prefix' => 'level'], function () {
-        Route::get('/', [LevelController::class, 'index'])->name('level.index');
-        Route::get('/list', [LevelController::class, 'list'])->name('level.list');
-        Route::get('/create', [LevelController::class, 'create'])->name('level.create');
-        Route::post('/', [LevelController::class, 'store'])->name('level.store');
-        Route::get('/create_ajax', [LevelController::class, 'create_ajax'])->name('level.create_ajax');
-        Route::post('/ajax', [LevelController::class, 'store_ajax'])->name('level.store_ajax');
-        Route::get('/{id}/edit', [LevelController::class, 'edit'])->name('level.edit');
-        Route::put('/{id}', [LevelController::class, 'update'])->name('level.update');
-        Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax'])->name('level.edit_ajax');
-        Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax'])->name('level.update_ajax');
-        Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax'])->name('level.confirm_ajax');
-        Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax'])->name('level.delete_ajax');
-        Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy');
-    });
-
-    Route::group(['prefix' => 'kategori'], function () {
+    // Kategori
+    Route::prefix('kategori')->group(function () {
         Route::get('/', [KategoriController::class, 'index'])->name('kategori.index');
         Route::get('/list', [KategoriController::class, 'list'])->name('kategori.list');
         Route::get('/create', [KategoriController::class, 'create'])->name('kategori.create');
@@ -78,7 +57,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
     });
 
-    Route::group(['prefix' => 'barang'], function () {
+    // Barang
+    Route::prefix('barang')->group(function () {
         Route::get('/', [BarangController::class, 'index'])->name('barang.index');
         Route::get('/list', [BarangController::class, 'list'])->name('barang.list');
         Route::get('/create', [BarangController::class, 'create'])->name('barang.create');
@@ -95,7 +75,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
     });
 
-    Route::group(['prefix' => 'stock'], function () {
+    // Stock
+    Route::prefix('stock')->group(function () {
         Route::get('/', [StockController::class, 'index'])->name('stock.index');
         Route::get('/list', [StockController::class, 'list'])->name('stock.list');
         Route::get('/create', [StockController::class, 'create'])->name('stock.create');
@@ -111,8 +92,22 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}/delete_ajax', [StockController::class, 'delete_ajax'])->name('stock.delete_ajax');
         Route::delete('/{id}', [StockController::class, 'destroy'])->name('stock.destroy');
     });
+
+    // Khusus Level, hanya user MNG
+    Route::middleware(['authorize:ADS'])->prefix('level')->group(function () {
+        Route::get('/', [LevelController::class, 'index'])->name('level.index');
+        Route::get('/list', [LevelController::class, 'list'])->name('level.list');
+        Route::get('/create', [LevelController::class, 'create'])->name('level.create');
+        Route::post('/', [LevelController::class, 'store'])->name('level.store');
+        Route::get('/create_ajax', [LevelController::class, 'create_ajax'])->name('level.create_ajax');
+        Route::post('/ajax', [LevelController::class, 'store_ajax'])->name('level.store_ajax');
+        Route::get('/{id}/edit', [LevelController::class, 'edit'])->name('level.edit');
+        Route::put('/{id}', [LevelController::class, 'update'])->name('level.update');
+        Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax'])->name('level.edit_ajax');
+        Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax'])->name('level.update_ajax');
+        Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax'])->name('level.confirm_ajax');
+        Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax'])->name('level.delete_ajax');
+        Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy');
+    });
+
 });
-
-
-
-?>
