@@ -53,6 +53,9 @@
         <div class="col-4">
           <button type="submit" class="btn btn-primary btn-block">Sign In</button>
         </div>
+        <p class="mb-0 mt-3 text-center">
+          Belum punya akun? <a href="{{ url('register') }}">Daftar di sini</a>
+        </p>
         <!-- /.col -->
       </div>
     </form>
