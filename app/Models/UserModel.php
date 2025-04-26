@@ -6,19 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\LevelModel; // Ensure that the LevelModel class exists in the specified namespace or update the namespace accordingly
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserModel extends Model
+class UserModel extends Authenticatable
 {
     use HasFactory;
 
     protected $table = 'm_user'; //Mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; //Mendefinisikan nama primary key yang digunakan
-    /** 
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['level_id', 'username', 'nama', 'password'];
+    
+    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at'];
+    protected $hidden = ['password']; // Menyembunyikan password dari hasil query
+    protected $casts = ['password' => 'hashed']; // Mengatur password sebagai string
 
     public function level(): BelongsTo
     {
