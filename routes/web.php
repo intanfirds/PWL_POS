@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
     // User
-    Route::prefix('user')->group(function () {
+    Route::middleware(['authorize:ADS'])->prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::get('/list', [UserController::class, 'list'])->name('user.list');
         Route::get('/create', [UserController::class, 'create'])->name('user.create');
@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Kategori
-    Route::prefix('kategori')->group(function () {
+    Route::middleware(['authorize:ADS,MNG,STF'])->prefix('kategori')->group(function () {
         Route::get('/', [KategoriController::class, 'index'])->name('kategori.index');
         Route::get('/list', [KategoriController::class, 'list'])->name('kategori.list');
         Route::get('/create', [KategoriController::class, 'create'])->name('kategori.create');
@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Barang
-    Route::prefix('barang')->group(function () {
+    Route::middleware(['authorize:ADS,MNG,STF'])->prefix('barang')->group(function () {
         Route::get('/', [BarangController::class, 'index'])->name('barang.index');
         Route::get('/list', [BarangController::class, 'list'])->name('barang.list');
         Route::get('/create', [BarangController::class, 'create'])->name('barang.create');
@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Stock
-    Route::prefix('stock')->group(function () {
+    Route::middleware(['authorize:ADS,MNG,STF,PLG,OFG'])->prefix('stock')->group(function () {
         Route::get('/', [StockController::class, 'index'])->name('stock.index');
         Route::get('/list', [StockController::class, 'list'])->name('stock.list');
         Route::get('/create', [StockController::class, 'create'])->name('stock.create');
@@ -93,7 +93,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [StockController::class, 'destroy'])->name('stock.destroy');
     });
 
-    // Khusus Level, hanya user MNG
+    // Level
     Route::middleware(['authorize:ADS'])->prefix('level')->group(function () {
         Route::get('/', [LevelController::class, 'index'])->name('level.index');
         Route::get('/list', [LevelController::class, 'list'])->name('level.list');
