@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -395,5 +396,19 @@ class UserController extends Controller
 
         $writer->save('php://output');
         exit;
+    }
+
+    public function export_pdf()
+    {
+        $user = UserModel::select('user_id', 'username', 'nama', 'level_id')
+                ->orderBy('level_id')
+                ->with('level')
+                ->get();
+   
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = Pdf::loadView('user.export_pdf', ['user' => $user]);
+
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+        return $pdf->download('Data User ' . date('Y-m-d_H-i-s') . '.pdf');
     }
 }

@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/import', [UserController::class, 'import'])->name('user.import');
         Route::post('/import_ajax', [UserController::class, 'import_ajax'])->name('user.import_ajax');
         Route::get('/export_excel', [UserController::class, 'export_excel'])->name('user.export_excel');
+        Route::get('/export_pdf', [UserController::class, 'export_pdf'])->name('user.export_pdf');
     });
 
     // Kategori
@@ -64,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/import', [KategoriController::class, 'import'])->name('kategori.import');
         Route::post('/import_ajax', [KategoriController::class, 'import_ajax'])->name('kategori.import_ajax');
         Route::get('/export_excel', [KategoriController::class, 'export_excel'])->name('kategori.export_excel');
+        Route::get('/export_pdf', [KategoriController::class, 'export_pdf'])->name('kategori.export_pdf');
     });
 
     // Barang
@@ -107,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/import', [StockController::class, 'import'])->name('stock.import');
         Route::post('/import_ajax', [StockController::class, 'import_ajax'])->name('stock.import_ajax');
         Route::get('/export_excel', [StockController::class, 'export_excel'])->name('stock.export_excel');
+        Route::get('/export_pdf', [StockController::class, 'export_pdf'])->name('stock.export_pdf');
     });
 
     // Level
@@ -127,6 +130,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/import', [LevelController::class, 'import'])->name('level.import');
         Route::post('/import_ajax', [LevelController::class, 'import_ajax'])->name('level.import_ajax');
         Route::get('/export_excel', [LevelController::class, 'export_excel'])->name('level.export_excel');
+        Route::get('/export_pdf', [LevelController::class, 'export_pdf'])->name('level.export_pdf');
     });
 
 });

@@ -7,6 +7,7 @@ use App\Models\LevelModel;
 use Yajra\DataTables\Facades\DataTables;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LevelController extends Controller
 {
@@ -342,5 +343,18 @@ class LevelController extends Controller
 
         $writer->save('php://output');
         exit;
+    }
+
+    public function export_pdf()
+    {
+        $level = LevelModel::select('level_id', 'level_kode', 'level_name')
+                ->orderBy('level_id')
+                ->get();
+   
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = Pdf::loadView('level.export_pdf', ['level' => $level]);
+
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+        return $pdf->download('Data Level ' . date('Y-m-d_H-i-s') . '.pdf');
     }
 }

@@ -9,6 +9,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StockController extends Controller
 {
@@ -411,5 +412,19 @@ class StockController extends Controller
 
         $writer->save('php://output');
         exit;
+    }
+
+    public function export_pdf()
+    {
+        $stock = StockModel::select('stok_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
+                ->orderBy('stok_id')
+                ->with('barang', 'user')
+                ->get();
+   
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = Pdf::loadView('stock.export_pdf', ['stock' => $stock]);
+
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+        return $pdf->download('Data Stock ' . date('Y-m-d_H-i-s') . '.pdf');
     }
 }
