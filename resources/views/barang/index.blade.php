@@ -6,7 +6,7 @@
             <h3 class="card-title">Daftar barang</h3>
             <div class="card-tools">
                 <button onclick="modalAction('{{ url('/barang/import') }}')" class="btn btn-sm btn-info mt-1">Import</button>
-                <a href="{{ route('barang.create') }}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+                <a href="{{ url('/barang/export_excel') }}" class="btn btn-sm btn-info mt-1">Export Barang</a>
                 <button onclick="modalAction('{{ url('barang/create_ajax')}}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
