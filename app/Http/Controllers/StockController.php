@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use App\Models\StockModel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 
 class StockController extends Controller
@@ -277,6 +278,84 @@ class StockController extends Controller
                 return response()->json([
                     'status'  => false,
                     'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function import()
+    {
+        return view('stock.import');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_stock' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $file = $request->file('file_stock');
+
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $data = $sheet->toArray(null, false, true, true);
+
+            $insert = [];
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) {
+                        // Pastikan nilai tidak kosong
+                        if ($value['A'] && $value['B'] && $value['C'] && $value['D']) {
+                            try {
+                                // Format tanggal
+                                $tanggal = \Carbon\Carbon::parse($value['C'])->format('Y-m-d H:i:s');
+
+                                $insert[] = [
+                                    'barang_id'    => $value['A'],
+                                    'user_id'      => $value['B'],
+                                    'stok_tanggal' => $tanggal,
+                                    'stok_jumlah'  => $value['D'],
+                                    'created_at'   => now(),
+                                ];
+                            } catch (\Exception $e) {
+                                // Kalau error parsing tanggal, skip
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                if (count($insert) > 0) {
+                    StockModel::insertOrIgnore($insert);
+
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Data stok berhasil diimport'
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Tidak ada data valid yang diimport'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tidak ada data yang diimport'
                 ]);
             }
         }

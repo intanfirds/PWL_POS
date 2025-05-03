@@ -41,6 +41,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax'])->name('user.confirm_ajax');
         Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax'])->name('user.delete_ajax');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::get('/import', [UserController::class, 'import'])->name('user.import');
+        Route::post('/import_ajax', [UserController::class, 'import_ajax'])->name('user.import_ajax');
     });
 
     // Kategori
@@ -58,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax'])->name('kategori.confirm_ajax');
         Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax'])->name('kategori.delete_ajax');
         Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+        Route::get('/import', [KategoriController::class, 'import'])->name('kategori.import');
+        Route::post('/import_ajax', [KategoriController::class, 'import_ajax'])->name('kategori.import_ajax');
     });
 
     // Barang
@@ -76,6 +80,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax'])->name('barang.confirm_ajax');
         Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax'])->name('barang.delete_ajax');
         Route::delete('/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+        Route::get('/import', [BarangController::class, 'import'])->name('barang.import');
+        Route::post('/import_ajax', [BarangController::class, 'import_ajax'])->name('barang.import_ajax');
     });
 
     // Stock
@@ -94,6 +100,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/delete_ajax', [StockController::class, 'confirm_ajax'])->name('stock.confirm_ajax');
         Route::delete('/{id}/delete_ajax', [StockController::class, 'delete_ajax'])->name('stock.delete_ajax');
         Route::delete('/{id}', [StockController::class, 'destroy'])->name('stock.destroy');
+        Route::get('/import', [StockController::class, 'import'])->name('stock.import');
+        Route::post('/import_ajax', [StockController::class, 'import_ajax'])->name('stock.import_ajax');
     });
 
     // Level
@@ -111,6 +119,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax'])->name('level.confirm_ajax');
         Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax'])->name('level.delete_ajax');
         Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy');
+        Route::get('/import', [LevelController::class, 'import'])->name('level.import');
+        Route::post('/import_ajax', [LevelController::class, 'import_ajax'])->name('level.import_ajax');
     });
 
 });
