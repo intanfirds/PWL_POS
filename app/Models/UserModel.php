@@ -7,9 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\LevelModel; // Ensure that the LevelModel class exists in the specified namespace or update the namespace accordingly
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class UserModel extends Authenticatable
+class UserModel extends Authenticatable implements JWTSubject
 {
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
     use HasFactory;
 
     protected $table = 'm_user'; //Mendefinisikan nama tabel yang digunakan oleh model ini
@@ -38,6 +49,7 @@ class UserModel extends Authenticatable
     {
         return $this->level->level_kode;
     }
+
 }
 
 ?>
