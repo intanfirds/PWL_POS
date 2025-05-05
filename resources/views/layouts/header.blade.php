@@ -128,9 +128,10 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('logout') }}" role="button">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-      </li>      
+        <a href="{{ route('logout') }}" class="nav-link"
+             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+          </a>
+      </li>
     </ul>
   </nav>

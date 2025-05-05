@@ -7,6 +7,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::pattern('id', '[0-9]+');
@@ -18,9 +19,11 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->na
 Route::get('/register', [AuthController::class, 'register'])->name('register.form');
 Route::post('/register', [AuthController::class, 'store_user'])->name('register.store');
 
-
 // Semua route di bawah sini butuh login
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     // Home / dashboard
     Route::get('/', [WelcomeController::class, 'index'])->name('home');

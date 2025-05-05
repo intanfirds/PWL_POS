@@ -15,7 +15,7 @@ class UserModel extends Authenticatable
     protected $table = 'm_user'; //Mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; //Mendefinisikan nama primary key yang digunakan
     
-    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at'];
+    protected $fillable = ['level_id', 'username', 'nama', 'password','foto','no_telp', 'created_at', 'updated_at'];
     protected $hidden = ['password']; // Menyembunyikan password dari hasil query
     protected $casts = ['password' => 'hashed']; // Mengatur password sebagai string
 

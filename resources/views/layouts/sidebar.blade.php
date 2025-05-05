@@ -1,4 +1,19 @@
 <div class="sidebar">
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+        @auth
+            @if(Auth::user()->foto)
+                <img src="{{ asset('storage/foto/' . Auth::user()->foto) }}" class="img-circle elevation-2" alt="User Image" style="width: 40px; height: 40px; object-fit: cover;">
+            @else
+                <img src="{{ asset('img/default.jpg') }}" class="img-circle elevation-2" alt="User Image" style="width: 40px; height: 40px; object-fit: cover;">
+            @endif
+        @endauth
+    </div>
+    <div class="info">
+        <a href="{{ route('profile.index') }}" class="d-block">{{ Auth::user()->nama ?? 'User' }}</a>
+    </div>
+ </div>
+
     <!-- SidebarSearch Form -->
     <div class="form-inline mt-2">
       <div class="input-group" data-widget="sidebar-search">
